@@ -22,7 +22,7 @@
             <router-link :to="{name:'RegistPage'}">
               <el-button type="primary">注册</el-button>
             </router-link>
-            <CheckServer/>
+            <!-- <CheckServer/> -->
           </el-form-item>
         </el-form>
       </el-main>
@@ -67,10 +67,23 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$store.dispatch("login", {
-            userName: this.ruleForm.userName,
+          this.$socket.emit("/user/login",{
+            userName:this.ruleForm.userName,
             password: this.ruleForm.pass
-          });
+          },msg=>{
+            if(msg["token"]){
+              localStorage.setItem("token",msg["token"]);
+              this.$socket.emit("/user/login",{
+                token:msg["token"]
+              },msg=>{
+                if(msg["user"]){
+                  console.log("----------------",msg)
+                  localStorage.setItem("user",JSON.stringify(msg["user"]));
+                  this.$router.push("main");
+                }
+              })
+            }
+          })
         } else {
           return false;
         }

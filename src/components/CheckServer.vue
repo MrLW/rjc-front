@@ -16,7 +16,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('checkServer');
+    //this.$store.dispatch('checkServer');
   },
 }
 </script>

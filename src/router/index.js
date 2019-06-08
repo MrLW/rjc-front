@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 import RegistPage from '@/components/RegistPage'
 import LoginPage from '@/components/LoginPage'
 import MainPage from '@/components/MainPage'
@@ -11,7 +10,7 @@ export default new Router({
     {
       path: '/',
       name: 'HelloWorld',
-      component: HelloWorld
+      component: LoginPage
     },
     {
       path: '/regist',

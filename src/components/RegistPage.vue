@@ -120,15 +120,23 @@ export default {
   },
   methods: {
     submitForm(formName) {
+      console.log(this.$router)
       this.$refs[formName].validate(valid => {
         if (valid) {
           // 注册
-          this.$store.dispatch('regist',{
-            userName:this.ruleForm.userName,
+          let user = {
+            username:this.ruleForm.userName,
             password:this.ruleForm.pass,
             email: this.ruleForm.email,
             age: this.ruleForm.age
-          });
+          } ;
+          // 注意这里如果是function的话,则this.$router 获取不到
+          this.$socket.emit("/user/regist",user,msg=>{
+            if(msg["result"]){
+              // 跳转到登陆页面
+              this.$router.push("/");
+            }
+          })
         } else {
           console.log("error submit!!");
           return false;

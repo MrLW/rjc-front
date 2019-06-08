@@ -14,6 +14,10 @@ export default {
     return {
       msg: "this is main page"
     };
+  },
+  sockets: {
+    connect:function () {
+    }
   }
 };
 </script>

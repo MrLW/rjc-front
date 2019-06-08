@@ -3,8 +3,9 @@
 import Vue from 'vue'
 import Element from 'element-ui'
 import GeminiScrollbar from 'vue-gemini-scrollbar'
+import HappyScroll from 'vue-happy-scroll'
+import 'vue-happy-scroll/docs/happy-scroll.css'
 import 'element-ui/lib/theme-chalk/index.css'
-import SocketIO from 'socket.io-client'
 import VueSocketIO from 'vue-socket.io'
 import axios from 'axios'
 import App from './App'
@@ -18,8 +19,22 @@ const option = { size: 'small', zIndex: 3000 }
 // 安装Element-UI
 Vue.use(Element, option);
 Vue.use(GeminiScrollbar);
+Vue.use(HappyScroll);
 // 加载socket.io
-// Vue.use(VueSocketIO,SocketIO('http://localhost:8080/'));
+Vue.use(new VueSocketIO({
+    // debug: true,
+    connection: 'http://localhost:7001/',
+    options:{
+      query:{
+        token:localStorage.getItem("token")
+      }
+    },
+    vuex: {
+        store,
+        actionPrefix: 'SOCKET_',
+        mutationPrefix: 'SOCKET_'
+    },
+}));
 // 安装axios
 Vue.prototype.$ajax = axios ;
 
