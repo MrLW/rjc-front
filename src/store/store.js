@@ -29,6 +29,7 @@ export default new Vuex.Store({
             // 存储到本地
             localStorage.setItem("token",u['token']);
             localStorage.setItem('userName',user.userName);
+            localStorage.setItem('userId',user.userId);
             let loginResult = await api.post("/user/login");
             if(loginResult['data']){
                 alert('登陆成功');

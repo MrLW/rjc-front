@@ -1,3 +1,11 @@
+<!--
+ * @Description: 登陆页面
+ * @Author: leekwe
+ * @Date: 2019-08-10 12:54:56
+ * @version: 1.0
+ * @LastEditors: leekwe
+ * @LastEditTime: 2019-08-11 19:25:33
+ -->
 <template>
   <div>
     <el-container>
@@ -22,7 +30,6 @@
             <router-link :to="{name:'RegistPage'}">
               <el-button type="primary">注册</el-button>
             </router-link>
-            <!-- <CheckServer/> -->
           </el-form-item>
         </el-form>
       </el-main>
@@ -31,6 +38,7 @@
 </template>
 <script>
 import CheckServer from "@/components/CheckServer.vue";
+import user from "../api/user";
 export default {
   components: {
     CheckServer
@@ -67,23 +75,24 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$socket.emit("/user/login",{
-            userName:this.ruleForm.userName,
+          let userObj = {
+            userName: this.ruleForm.userName,
             password: this.ruleForm.pass
-          },msg=>{
-            if(msg["token"]){
-              localStorage.setItem("token",msg["token"]);
-              this.$socket.emit("/user/login",{
-                token:msg["token"]
-              },msg=>{
-                if(msg["user"]){
-                  console.log("----------------",msg)
-                  localStorage.setItem("user",JSON.stringify(msg["user"]));
-                  this.$router.push("main");
-                }
+          };
+          user.login(this.$socket, userObj, msg => {
+            if (msg["token"]) {
+              localStorage.setItem("token", msg["token"]);
+              let tokenObj = { token: msg["token"] } ;
+              user.login(this.$socket,tokenObj,msg=>{
+                 if (msg["user"]) {
+                    localStorage.setItem("user", JSON.stringify(msg["user"]));
+                    this.$router.push("main");
+                  } else {
+                    alert(msg["err"]);
+                  }
               })
             }
-          })
+          });
         } else {
           return false;
         }

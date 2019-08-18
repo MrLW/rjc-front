@@ -1,17 +1,62 @@
-.chatItem{
-    background: white;
-    // height: 50px;
-    width: auto;
-    max-width: 450px;
-    text-align: left;
-    // 去掉li的样式
-    list-style: none;
-    vertical-align:middle;
-    // 设置和height相同使li垂直居中
-    // line-height:50px; 
-    line-height: 100%;
-    height: auto;
-    border-radius: 5px;
+.triangle{
+    margin:  auto ;
+}
+.triangle ul{
     padding: 10px;
-    margin-top: 30px;
+}
+.triangle li{
+    padding: 5px;
+    margin-bottom: 10px;
+}
+.triangle li span{
+    position: relative;
+    border-radius: 7px;
+    background-color: #a6e860;
+    padding: 6px 10px 8px 10px;
+    z-index: 1;
+}
+.triangle li.textRight:after{
+    box-sizing: border-box;
+    position: relative;
+    right: -10px;
+    top: 9px;
+}
+.triangle li.textRight span:after{
+    display: block;
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-left: 8px solid #a6e860;
+    position: absolute;
+    top: 8px;
+    right: -16px;
+}
+li{
+    list-style: none;
+}
+.textRight{
+    text-align: right;
+}
+.triangle .textLeft span{
+    background-color: white;
+}
+.triangle li.textLeft:before{
+    box-sizing: border-box;
+    position: relative;
+    left: -10px;
+    top: 9px;
+}
+.triangle li.textLeft span:before{
+    // content:  url('../static/image/my.png');
+    display: block;
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-right: 8px solid white;
+    position: absolute;
+    top: 8px;
+    left: -16px;
+}
+.textLeft{
+    text-align: left;
 }

@@ -4,19 +4,19 @@
  * @version: 1.0
  * @LastEditors: leekwe
  * @Date: 2019-05-10 20:40:57
- * @LastEditTime: 2019-05-11 14:54:30
+ * @LastEditTime: 2019-08-15 23:36:24
  -->
 <template>
-<ul>
-    <li class="chatItem" v-for="m in msg">
-        {{m}}
+  <ul class="triangle">
+    <li class="textRight" v-for="m in msg">
+      <span>{{m}}</span>
     </li>
-</ul>
+  </ul>
 </template>
 <script>
 export default {
-    props:{
-        msg:Array
-    }
-}
+  props: {
+    msg: Array
+  }
+};
 </script>
