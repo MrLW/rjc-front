@@ -4,7 +4,7 @@
  * @Date: 2019-06-06 17:00:42
  * @version: 1.0
  * @LastEditors: leekwe
- * @LastEditTime: 2019-08-18 12:00:51
+ * @LastEditTime: 2019-08-25 23:59:46
  -->
 <template>
   <el-main>
@@ -33,7 +33,9 @@ export default {
       this.$router.push(path);
     },
     send() {
-      messageApi.send(this.$socket,this.msg,currentUserId(),toUserId(),msgs=>{
+      let text = this.msg.replace(/[\r\n]/g, "");
+      messageApi.send(this.$socket,text,currentUserId(),toUserId(),msgs=>{
+        console.info('=======>',msgs);
         this.msgs = msgs.map(item=>{return item.msg});
         this.clear();
       })

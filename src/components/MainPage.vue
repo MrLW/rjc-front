@@ -4,7 +4,7 @@
  * @version: 1.0
  * @LastEditors: leekwe
  * @Date: 2019-05-11 14:24:29
- * @LastEditTime: 2019-08-18 17:02:09
+ * @LastEditTime: 2019-08-25 23:58:55
  -->
 <template>
   <el-container >
@@ -27,9 +27,9 @@
       <div>
         <el-menu  background-color="#2F3237">
           <ul>
-              <li v-for="item in chatData" style="list-style：none；" @click="handleSelect(item)">
+              <li v-for="item in friends" style="list-style：none；" @click="handleSelect(item)">
                 <el-menu-item index="2">
-                  <span slot="title" style="color:white">{{item.name}}</span>
+                  <span slot="title" style="color:white">{{item.username}}</span>
                 </el-menu-item>
               </li>
           </ul>
@@ -56,51 +56,17 @@ import ChatItem from "./ChatItem.vue";
 import ChatBlock from "./ChatBlock.vue";
 import userApi from "../api/user";
 import messageApi from '../api/message';
-import {currentUserId} from '../utils/user.js';
+import {currentUserId, currentUserName, toUserId} from '../utils/user.js';
 import { historyMsgs } from '../api/constant';
+import main from '../model/main';
 export default {
   data() {
-    return {
-      userName: "Leekwe",
-      msg: {
-        text: ""
-      },
-      // 聊天界面的名字
-      targetName: "群聊（50）",
-      search: "",
-      chatTables: [
-        {
-          type: "group",
-          name: "java交流群"
-        },
-        {
-          type: "group",
-          name: ".net交流群"
-        },
-        {
-          type: "user",
-          name: "张三"
-        }
-      ],
-      msgs: [],
-      user: {},
-      groups: [], // 群数
-      chatData: [],
-      show:'none'// 聊天主界面是否显示
-    };
+    return main;
   },
   methods: {
     go(path) {
       this.$router.push(path);
     },
-    send() {
-      let text = this.msg.text.replace(/[\r\n]/g, "");
-      const to = '';
-      messageApi.send(this.$socket,currentUserId(),to,text,msgs=>{
-        console.info('msgs=====>',msgs);
-      })
-    },
-    
     /**
      *  选择一个聊天
      * @param {*} toUser 用户对象
@@ -115,11 +81,15 @@ export default {
     }
   },
   created() {
-    console.info('historyMsgs======>',historyMsgs);
     // 初始化左侧聊天栏
-    userApi.chatList(this.$socket, chatData => {
-      this.chatData = chatData;
+    userApi.chatList(this.$socket, result => {
+      if(result.success){
+        this.friends = result.data;
+      }else {
+          alert(result.success);
+      }
     });
+    this.userName = currentUserName();
   },
   components: { ChatItem, ChatBlock }
 };

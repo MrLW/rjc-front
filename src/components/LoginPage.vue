@@ -4,7 +4,7 @@
  * @Date: 2019-08-10 12:54:56
  * @version: 1.0
  * @LastEditors: leekwe
- * @LastEditTime: 2019-08-11 19:25:33
+ * @LastEditTime: 2019-08-25 17:19:48
  -->
 <template>
   <div>
@@ -80,17 +80,19 @@ export default {
             password: this.ruleForm.pass
           };
           user.login(this.$socket, userObj, msg => {
-            if (msg["token"]) {
-              localStorage.setItem("token", msg["token"]);
-              let tokenObj = { token: msg["token"] } ;
-              user.login(this.$socket,tokenObj,msg=>{
-                 if (msg["user"]) {
-                    localStorage.setItem("user", JSON.stringify(msg["user"]));
-                    this.$router.push("main");
-                  } else {
-                    alert(msg["err"]);
-                  }
-              })
+            if (msg['success']) {
+              localStorage.setItem("token", msg["data"]);
+              let tokenObj = { token: msg["data"] };
+              user.login(this.$socket, tokenObj, msg => {
+                if (msg["data"]) {
+                  localStorage.setItem("user", JSON.stringify(msg["data"]));
+                  this.$router.push("main");
+                } else {
+                  alert(msg["message"]);
+                }
+              });
+            }else{
+              alert(msg["message"]);
             }
           });
         } else {

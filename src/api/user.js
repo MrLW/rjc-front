@@ -1,12 +1,14 @@
+import { currentUser } from '../utils/user';
+
 /*
  * @Description: 用户模块
  * @Author: leekwe
  * @Date: 2019-08-10 12:24:54
  * @version: 1.0
  * @LastEditors: leekwe
- * @LastEditTime: 2019-08-15 22:15:47
+ * @LastEditTime: 2019-08-25 23:46:55
  */
-
+const {currentUserId} = require('../utils/user')
 
 export default class {
 
@@ -17,6 +19,7 @@ export default class {
      * @param {*} callback 回调
      */
     static login(socket,user,callback) {
+        console.info('user method execute',socket);
         socket.emit("/user/login", user, msg => {
             callback(msg);
         })
@@ -34,30 +37,13 @@ export default class {
         })
     }
 
-    static test(){
-        console.error('user method test',this.$socket);
-    }
     /**
      * 获取当前聊天用户列表
      * @param {*} socket 当前socket对象
      */
     static chatList(socket,callback){
-        callback([
-            {
-                id:'1',
-                name:'Java交流群',
-                type:'room',
-            },
-            {
-                id:'2',
-                name:'Node交流群',
-                type:'room',
-            },
-            {
-                id:'1',
-                name:'张三',
-                type:'user',
-            },
-        ])
+        socket.emit('/user/friends',currentUserId(),result=>{
+            callback(result);
+        });
     }
 }

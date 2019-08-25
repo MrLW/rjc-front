@@ -4,7 +4,7 @@
  * @Date: 2019-08-11 19:35:46
  * @version: 1.0
  * @LastEditors: leekwe
- * @LastEditTime: 2019-08-11 19:38:29
+ * @LastEditTime: 2019-08-25 22:43:27
  -->
 <template>
   <div>
@@ -129,7 +129,6 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      console.log(this.$router)
       this.$refs[formName].validate(valid => {
         if (valid) {
           // 注册
@@ -141,9 +140,11 @@ export default {
           } ;
           // 注意这里如果是function的话,则this.$router 获取不到
           userApi.regist(this.$socket,user,msg=>{
-            if(msg["result"]){
+            if(msg["success"]){
               // 跳转到登陆页面
               this.$router.push("/");
+            } else{
+              alert(msg['message']);
             }
           })
         } else {
