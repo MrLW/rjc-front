@@ -1,17 +1,38 @@
 .el-header {
   background-color: #b3c0d1;
   color: #333;
-//   line-height: 60px;
+  //   line-height: 60px;
 }
 .el-aside {
   color: #333;
 }
 .my-scroll-bar {
-  height:85%;
+  height: 85%;
 }
 .el-main {
-  height:100%;
+  height: 100%;
 }
 .el-textarea__inner {
-  resize: none
+  resize: none;
+}
+// 未读消息提示
+.notice {
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 10px;
+  color: #fff;
+  text-align: center;
+  background-color: #f00;
+  border-radius: 50%;
+  position: absolute;
+  right: -10px;
+  top: -10px;
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
 }

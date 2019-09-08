@@ -4,11 +4,11 @@
  * @Date: 2019-06-06 17:00:42
  * @version: 1.0
  * @LastEditors: leekwe
- * @LastEditTime: 2019-08-25 23:59:46
+ * @LastEditTime: 2019-09-08 14:09:35
  -->
 <template>
   <el-main>
-    <GeminiScrollbar class="my-scroll-bar" style="">
+    <GeminiScrollbar class="my-scroll-bar" style>
       <ChatItem :msg="msgs"></ChatItem>
     </GeminiScrollbar>
     <div class="sendMessage">
@@ -18,12 +18,13 @@
 </template>
 <script>
 import ChatItem from "./ChatItem.vue";
-import messageApi from '../api/message';
-import { currentUserId, toUserId } from '../utils/user';
+import messageApi from "../api/message";
+import { currentUserId, toUserId } from "../utils/user";
 export default {
+  props: ["to"],
   data() {
     return {
-      msg: '', // 输入框里的值
+      msg: "", // 输入框里的值
       msgs: [], // total 聊天记录
       user: {}
     };
@@ -34,23 +35,25 @@ export default {
     },
     send() {
       let text = this.msg.replace(/[\r\n]/g, "");
-      messageApi.send(this.$socket,text,currentUserId(),toUserId(),msgs=>{
-        console.info('=======>',msgs);
-        this.msgs = msgs.map(item=>{return item.msg});
+      messageApi.send(this.$socket, text, currentUserId(), this.to, msgs => {
+        this.msgs = msgs;
         this.clear();
-      })
+      });
     },
-    clear(){
-      this.msg = '';
+    clear() {
+      this.msg = "";
     }
   },
-  created() {
-    console.log("当前房间:",this.$socket)
+  created() {},
+  watch: {
+    to(newId, oldId) {
+      messageApi.list(this.$socket, currentUserId(), newId, msgs => {
+        this.msgs = msgs;
+      });
+    }
   },
-  created() {
-  },
-  components:{
-      ChatItem
+  components: {
+    ChatItem
   }
 };
 </script>

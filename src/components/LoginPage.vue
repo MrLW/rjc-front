@@ -4,7 +4,7 @@
  * @Date: 2019-08-10 12:54:56
  * @version: 1.0
  * @LastEditors: leekwe
- * @LastEditTime: 2019-08-25 17:19:48
+ * @LastEditTime: 2019-09-08 22:14:38
  -->
 <template>
   <div>
@@ -20,10 +20,20 @@
           size="small"
         >
           <el-form-item label="用户名/邮箱" prop="userName" size="small">
-            <el-input type="text" v-model="ruleForm.userName" autocomplete="off"></el-input>
+            <el-input
+              type="text"
+              v-model="ruleForm.userName"
+              autocomplete="off"
+              @keyup.enter.native="submitForm('ruleForm')"
+            ></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="pass">
-            <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+            <el-input
+              type="password"
+              v-model="ruleForm.pass"
+              autocomplete="off"
+              @keyup.enter.native="submitForm('ruleForm')"
+            ></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm')">登陆</el-button>
@@ -80,7 +90,7 @@ export default {
             password: this.ruleForm.pass
           };
           user.login(this.$socket, userObj, msg => {
-            if (msg['success']) {
+            if (msg["success"]) {
               localStorage.setItem("token", msg["data"]);
               let tokenObj = { token: msg["data"] };
               user.login(this.$socket, tokenObj, msg => {
@@ -91,7 +101,7 @@ export default {
                   alert(msg["message"]);
                 }
               });
-            }else{
+            } else {
               alert(msg["message"]);
             }
           });
